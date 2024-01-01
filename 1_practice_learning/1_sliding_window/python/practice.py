@@ -78,6 +78,7 @@ def find_max_sliding_window_naive(nums, w):
 
 
 def find_max_sliding_window_opt(nums, w):
+    from collections import deque
     """_summary_
 
     Args:
@@ -88,7 +89,7 @@ def find_max_sliding_window_opt(nums, w):
         _type_: _description_
     """
     output = []
-    def clean_up(i, current_window, numbs):
+    def clean_up(i, current_window, numbs, flag_deque):
         """_summary_
 
         Args:
@@ -99,28 +100,40 @@ def find_max_sliding_window_opt(nums, w):
         while current_window and numbs[i] >= numbs[current_window[-1]]:
             print(f"\t\tAs nums[{i}] = {nums[i]} is greater than or equal to nums[{current_window[-1]}] = {nums[current_window[-1]]},")
             print(f"\t\tremove {current_window[-1]} from current_window")
-            del current_window[-1]
+            if flag_deque:
+                current_window.pop()
+            else:
+                del current_window[-1]
 
     if len(nums) == 0:
         return []
 
-    current_window = []
+    # current_window = []
+    current_window = deque()
+
+    if isinstance(current_window, list):
+        flag_deque = False
+    else:
+        flag_deque = True
 
     if w > len(nums):
         w = len(nums)
 
     print("\n\tFinding the maximum in the first window:")
     for i in range(w):
-        clean_up(i, current_window, nums)
+        clean_up(i, current_window, nums, flag_deque)
         current_window.append(i)
     output.append(nums[current_window[0]])
 
     print("\n\tFinding the maximum in the remaining windows:")
     for i in range(w, len(nums)):
-        clean_up(i, current_window, nums)
+        clean_up(i, current_window, nums, flag_deque)
 
         if current_window and current_window[0] <= (i - w):
-            del current_window[0]
+            if flag_deque:
+                current_window.popleft()
+            else:
+                del current_window[0]
 
         current_window.append(i)
         output.append(nums[current_window[0]])
