@@ -59,7 +59,77 @@ def find_repeated_seq_opt(s, k):
     return output
 
 
+def find_max_sliding_window_naive(nums, w):
+    """_summary_
+
+    Args:
+        nums (_type_): _description_
+        w (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    # Replace this placeholder return statement with your code
+    n = len(nums)
+    output = []
+    for i in range(0, n-w+1):
+        output.append(max(nums[i:i+w]))
+    return output
+
+
+def find_max_sliding_window_opt(nums, w):
+    """_summary_
+
+    Args:
+        nums (_type_): _description_
+        w (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    output = []
+    def clean_up(i, current_window, numbs):
+        """_summary_
+
+        Args:
+            i (_type_): _description_
+            current_window (_type_): _description_
+            numbs (_type_): _description_
+        """
+        while current_window and numbs[i] >= numbs[current_window[-1]]:
+            print(f"\t\tAs nums[{i}] = {nums[i]} is greater than or equal to nums[{current_window[-1]}] = {nums[current_window[-1]]},")
+            print(f"\t\tremove {current_window[-1]} from current_window")
+            del current_window[-1]
+
+    if len(nums) == 0:
+        return []
+
+    current_window = []
+
+    if w > len(nums):
+        w = len(nums)
+
+    print("\n\tFinding the maximum in the first window:")
+    for i in range(w):
+        clean_up(i, current_window, nums)
+        current_window.append(i)
+    output.append(nums[current_window[0]])
+
+    print("\n\tFinding the maximum in the remaining windows:")
+    for i in range(w, len(nums)):
+        clean_up(i, current_window, nums)
+
+        if current_window and current_window[0] <= (i - w):
+            del current_window[0]
+
+        current_window.append(i)
+        output.append(nums[current_window[0]])
+
+    return output
+
+
 if __name__ == "__main__":
+    """
     STRING = "AAAAACCCCCAAAAACCCCCC"
     k = 8
 
@@ -67,15 +137,45 @@ if __name__ == "__main__":
     k = 9
     output = find_repeated_seq_naive(s=STRING, k=k)
     print(output)
-    
+
     inputs_string = ["ACGT", "AGACCTAGAC", "AAAAACCCCCAAAAACCCCCC", "GGGGGGGGGGGGGGGGGGGGGGGGG",
                      "TTTTTCCCCCCCTTTTTTCCCCCCCTTTTTTT", "TTTTTGGGTTTTCCA",
                      "AAAAAACCCCCCCAAAAAAAACCCCCCCTG", "ATATATATATATATAT"]
     inputs_k = [3, 3, 8, 12, 10, 14, 10, 6]
 
-    for i, _ in enumerate(inputs_k):
-        print(i+1, ".\tInput Sequence: \'", inputs_string[i], "\'", sep="")
-        print("\tk: ", inputs_k[i], sep="")
+    for j, _ in enumerate(inputs_k):
+        print(j+1, ".\tInput Sequence: \'", inputs_string[j], "\'", sep="")
+        print("\tk: ", inputs_k[j], sep="")
         print("\tRepeated Subsequence: ",
-              find_repeated_seq_opt(inputs_string[i], inputs_k[i]))
+              find_repeated_seq_opt(inputs_string[j], inputs_k[j]))
+        print("-"*100)
+    """
+    nums_list = [[1,2,3,4,5,6,7,8,9,10],
+                 [3,3,3,3,3,3,3,3,3,3],
+                 [10,6,9,-3,23,-1,34,56,67,-1,-4,-8,-2,9,10,34,67],
+                 [4,5,6,1,2,3],
+                 [9,5,3,1,6,3]]
+    windows = [3, 4, 3, 1, 2]
+    for i, nums in enumerate(nums_list):
+        print(find_max_sliding_window_naive(nums, windows[i]))
+
+    window_sizes = [3, 3, 3, 3, 2, 4, 3, 2, 3, 18]
+    nums_list = [
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+        [10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+        [1, 5, 8, 10, 10, 10, 12, 14, 15, 19, 19, 19, 17, 14, 13, 12, 12, 12, 14, 18, 22, 26, 26, 26, 28, 29, 30],
+        [10, 6, 9, -3, 23, -1, 34, 56, 67, -1, -4, -8, -2, 9, 10, 34, 67],
+        [4, 5, 6, 1, 2, 3],
+        [9, 5, 3, 1, 6, 3],
+        [2, 4, 6, 8, 10, 12, 14, 16],
+        [-1, -1, -2, -4, -6, -7],
+        [4, 4, 4, 4, 4, 4]
+    ]
+
+    for i, _ in enumerate(nums_list):
+        print(f"{i + 1}.\tInput array:\t{nums_list[i]}")
+        print(f"\tWindow size:\t{window_sizes[i]}")
+        output = find_max_sliding_window_opt(nums_list[i], window_sizes[i])
+        print(f"\n\tMaximum in each sliding window:\t{output}")
         print("-"*100)
