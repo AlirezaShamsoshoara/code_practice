@@ -141,8 +141,50 @@ def find_max_sliding_window_opt(nums, w):
     return output
 
 
+
+def min_window_naive(str1, str2):
+    """_summary_
+
+    Args:
+        str1 (_type_): _description_
+        str2 (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    # Replace this placeholder return statement with your code
+    n1 = len(str1)
+    n2 = len(str2)
+    output = []
+    for i in range(n1):
+        for j in range(i, n1):
+            substr = str1[i:j]
+            if str2[0] != substr[0]:
+                break
+            for k in range(n2):
+                if str2[k] not in substr:
+                    break
+                
+    return ""
+
+
+def min_window_opt(str1, str2):
+    """_summary_
+
+    Args:
+        str1 (_type_): _description_
+        str2 (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    # Replace this placeholder return statement with your code
+
+    return ""
 if __name__ == "__main__":
     """
+    # ************************************************************
+    # *********************** DNA Sequence ***********************
     STRING = "AAAAACCCCCAAAAACCCCCC"
     k = 8
 
@@ -162,7 +204,9 @@ if __name__ == "__main__":
         print("\tRepeated Subsequence: ",
               find_repeated_seq_opt(inputs_string[j], inputs_k[j]))
         print("-"*100)
-    """
+    
+    # ************************************************************
+    # *********************** Max Sliding Window ***********************
     nums_list = [[1,2,3,4,5,6,7,8,9,10],
                  [3,3,3,3,3,3,3,3,3,3],
                  [10,6,9,-3,23,-1,34,56,67,-1,-4,-8,-2,9,10,34,67],
@@ -192,3 +236,10 @@ if __name__ == "__main__":
         output = find_max_sliding_window_opt(nums_list[i], window_sizes[i])
         print(f"\n\tMaximum in each sliding window:\t{output}")
         print("-"*100)
+        
+    # ************************************************************
+    # *********************** min window subsequence ***********************
+    """
+    str1_list = ["abcdebdde", ]
+    str2_list = ["bde", ]
+    
