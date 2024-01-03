@@ -12,8 +12,8 @@ def find_repeated_seq_naive(s, k):
     output_set = []
     include_set = []
     output_set = set()
-    for i in range(0, n-k+1):
-        sub_str = s[i:i+k]
+    for i in range(0, n - k + 1):
+        sub_str = s[i : i + k]
         if sub_str not in include_set:
             include_set.append(sub_str)
         else:
@@ -40,7 +40,7 @@ def find_repeated_seq_opt(s, k):
         return set()
     base = 4
     hi_place_value = pow(base, window_size - 1)
-    mapping = {'A': 1, 'C': 2, 'G': 3, 'T': 4}
+    mapping = {"A": 1, "C": 2, "G": 3, "T": 4}
     numbers = []
     for i, _ in enumerate(s):
         numbers.append(mapping.get(s[i]))
@@ -48,13 +48,14 @@ def find_repeated_seq_opt(s, k):
     substring_hashes, output = set(), set()
     for start in range(len(s) - window_size + 1):
         if start != 0:
-            hashing = (hashing - numbers[start - 1] * hi_place_value) * base \
-                + numbers[start + window_size - 1]
+            hashing = (hashing - numbers[start - 1] * hi_place_value) * base + numbers[
+                start + window_size - 1
+            ]
         else:
             for end in range(window_size):
                 hashing = hashing * base + numbers[end]
         if hashing in substring_hashes:
-            output.add(s[start:start + window_size])
+            output.add(s[start : start + window_size])
         substring_hashes.add(hashing)
     return output
 
@@ -72,13 +73,14 @@ def find_max_sliding_window_naive(nums, w):
     # Replace this placeholder return statement with your code
     n = len(nums)
     output = []
-    for i in range(0, n-w+1):
-        output.append(max(nums[i:i+w]))
+    for i in range(0, n - w + 1):
+        output.append(max(nums[i : i + w]))
     return output
 
 
 def find_max_sliding_window_opt(nums, w):
     from collections import deque
+
     """_summary_
 
     Args:
@@ -89,6 +91,7 @@ def find_max_sliding_window_opt(nums, w):
         _type_: _description_
     """
     output = []
+
     def clean_up(i, current_window, numbs, flag_deque):
         """_summary_
 
@@ -98,7 +101,9 @@ def find_max_sliding_window_opt(nums, w):
             numbs (_type_): _description_
         """
         while current_window and numbs[i] >= numbs[current_window[-1]]:
-            print(f"\t\tAs nums[{i}] = {nums[i]} is greater than or equal to nums[{current_window[-1]}] = {nums[current_window[-1]]},")
+            print(
+                f"\t\tAs nums[{i}] = {nums[i]} is greater than or equal to nums[{current_window[-1]}] = {nums[current_window[-1]]},"
+            )
             print(f"\t\tremove {current_window[-1]} from current_window")
             if flag_deque:
                 current_window.pop()
@@ -141,7 +146,6 @@ def find_max_sliding_window_opt(nums, w):
     return output
 
 
-
 def min_window_naive(str1, str2):
     """_summary_
 
@@ -164,7 +168,7 @@ def min_window_naive(str1, str2):
             for k in range(n2):
                 if str2[k] not in substr:
                     break
-                
+
     return ""
 
 
@@ -179,8 +183,38 @@ def min_window_opt(str1, str2):
         _type_: _description_
     """
     # Replace this placeholder return statement with your code
+    size_str1, size_str2 = len(str1), len(str2)
+    min_sub_len = float("inf")
 
-    return ""
+    index_s1, index_s2 = 0, 0
+
+    print("\t Length of str1 is: ", size_str1)
+    print("\t Length of str2 is: ", size_str2)
+
+    min_subseq = ""
+    start, end = 0, 0
+    while index_s1 < size_str1:
+        if str1[index_s1] == str2[index_s2]:
+            if index_s2 == 0:
+                start = index_s1
+            index_s2 += 1
+
+            # check if a valid substring has been found
+            if index_s2 == size_str2:
+                end = index_s1
+
+                if end - start + 1 < min_sub_len:
+                    min_sub_len = end - start + 1
+                    min_subseq = str1[start : end + 1]
+
+                index_s1 = end + 1
+                index_s2 = 0
+                continue
+        index_s1 += 1
+    print(f" **** Found item = {min_subseq}, **** start = {start}, **** end = {end}")
+    return min_subseq
+
+
 if __name__ == "__main__":
     """
     # ************************************************************
@@ -204,7 +238,7 @@ if __name__ == "__main__":
         print("\tRepeated Subsequence: ",
               find_repeated_seq_opt(inputs_string[j], inputs_k[j]))
         print("-"*100)
-    
+
     # ************************************************************
     # *********************** Max Sliding Window ***********************
     nums_list = [[1,2,3,4,5,6,7,8,9,10],
@@ -236,10 +270,16 @@ if __name__ == "__main__":
         output = find_max_sliding_window_opt(nums_list[i], window_sizes[i])
         print(f"\n\tMaximum in each sliding window:\t{output}")
         print("-"*100)
-        
+
     # ************************************************************
     # *********************** min window subsequence ***********************
     """
-    str1_list = ["abcdebdde", ]
-    str2_list = ["bde", ]
-    
+    str1_list = ["abcdebdde", "fgrqsqsnodwmxzkzxwqegkndaa", "zxcvnhss", "alpha", "beta"]
+    str2_list = ["bde", "kzed", "css", "la", "ab"]
+
+    for i, (val1, val2) in enumerate(zip(str1_list, str2_list)):
+        print(i + 1, ".\t Input strings: (" + val1 + ", " + val2 + ")", sep="")
+        min_window_opt(val1, val2)
+        print("-" * 100)
+
+    # ************************************************************
