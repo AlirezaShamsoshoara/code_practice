@@ -207,9 +207,10 @@ def min_window_opt(str1, str2):
                     min_sub_len = end - start + 1
                     min_subseq = str1[start : end + 1]
 
-                index_s1 = end + 1
+                # index_s1 = end + 1 # Fix the bug
+                index_s1 = start
                 index_s2 = 0
-                continue
+                # continue # Fix the bug
         index_s1 += 1
     print(f" **** Found item = {min_subseq}, **** start = {start}, **** end = {end}")
     return min_subseq
@@ -276,6 +277,10 @@ if __name__ == "__main__":
     """
     str1_list = ["abcdebdde", "fgrqsqsnodwmxzkzxwqegkndaa", "zxcvnhss", "alpha", "beta"]
     str2_list = ["bde", "kzed", "css", "la", "ab"]
+
+    # let's uncomment the following test case and verify the result
+    str1_list.append("abcdedeaqdweq")
+    str2_list.append("aqeq")
 
     for i, (val1, val2) in enumerate(zip(str1_list, str2_list)):
         print(i + 1, ".\t Input strings: (" + val1 + ", " + val2 + ")", sep="")
