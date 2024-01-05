@@ -275,6 +275,47 @@ def min_window_no_order(s, t):
     return s[left: right + 1] if res_len != float("inf") else ""
 
 
+
+def find_longest_substring(input_str):
+    """_summary_
+
+    Args:
+        input_str (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    freq_hash = {}
+    window = {}
+    last_seen = {}
+    found_len = 0
+    found = ""
+    for _, char in enumerate(input_str):
+        freq_hash[char] = 1 + freq_hash.get(char, 0)
+    left, right = 0, 0
+
+    if len(input_str) == 0:
+        return 0
+
+    for right, char in enumerate(input_str):
+        # char = input_str[right]
+        # print(right)
+        if char in last_seen:
+            if last_seen[char] >= left:
+                left = last_seen[char] + 1
+                last_seen[char] = right
+        else:
+            # window[char] = 1 + window.get(char, 0)
+            last_seen[char] = right
+            if right - left + 1 > found_len:
+                found_len = right - left + 1
+                found = input_str[left: right+1]
+
+    if found_len < right - left + 1:
+        found_len = right - left + 1
+    return found
+
+
 if __name__ == "__main__":
     """
     # ************************************************************
@@ -347,7 +388,7 @@ if __name__ == "__main__":
         print(i + 1, ".\t Input strings: (" + val1 + ", " + val2 + ")", sep="")
         min_window_opt(val1, val2)
         print("-" * 100)
-    """
+    
     # ************************************************************
     # *********************** min window subsequence same frequency no order ***********************
     s = ["PATTERN", "LIFE", "ABRACADABRA", "STRIKER", "DFFDFDFVD"]
@@ -356,3 +397,22 @@ if __name__ == "__main__":
         print(i + 1, ".\ts: ", s[i], "\n\tt: ", t[i], "\n\tThe minimum substring containing ", \
               t[i], " is: ", min_window_no_order(s[i], t[i]), sep="")
         print("-" * 100)
+    """
+    # ************************************************************
+    # *********************** longest substring w/o repeating ***********************
+    string = [
+        "abcabcbb",
+        "pwwkew",
+        "bbbbb",
+        "ababababa",
+        "",
+        "ABCDEFGHI",
+        "ABCDEDCBA",
+        "AAAABBBBCCCCDDDD",
+    ]
+    for i, str_elem in enumerate(string):
+        print(i + 1, ". \t Input String: ", str_elem, sep="")
+        print("\t Length of longest substring: ",
+                (find_longest_substring(str_elem)))
+        print("-" * 100)
+    # ************************************************************
