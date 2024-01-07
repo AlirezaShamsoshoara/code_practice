@@ -344,6 +344,20 @@ def longest_repeating_character_replacement(s, k):
     return length_of_max_substring
 
 
+def min_sub_array_len(target, nums):
+    """_summary_
+
+    Args:
+        target (_type_): _description_
+        nums (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    # Replace this placeholder return statement with your code
+    return -1
+
+
 if __name__ == "__main__":
     """
     # ************************************************************
@@ -444,7 +458,6 @@ if __name__ == "__main__":
                 (find_longest_substring(str_elem)))
         print("-" * 100)
     # ************************************************************
-    """
     # *********************** longest substring w/o repeating ***********************
     input_strings = ["aabccbb", "abbcb", "abccde", "abbcab", "bbbbbbbbb"]
     values_of_k = [2, 1, 1, 2, 4]
@@ -457,3 +470,14 @@ if __name__ == "__main__":
             longest_repeating_character_replacement(string_elem, values_of_k[i]),
         )
         print("-" * 100)
+    """
+    # ************************************************************
+    # *********************** min_sub_array_len ***********************
+    target = [7, 4, 11, 10, 5, 15]
+    input_arr = [[2, 3, 1, 2, 4, 3], [1, 4, 4], [1, 1, 1, 1, 1, 1, 1, 1],
+                 [1, 2, 3, 4], [1, 2, 1, 3], [5, 4, 9, 8, 11, 3, 7, 12, 15, 44]]
+    for i, input_elem in enumerate(input_arr):
+        window_size = min_sub_array_len(target[i], input_elem)
+        print(i+1, ".\t Input array: ", input_elem,"\n\t Target: ", target[i],
+            "\n\t Minimum Length of Subarray: ", window_size, sep="")
+        print("-"*100)
