@@ -367,6 +367,28 @@ def min_sub_array_len(target, nums):
     return 0 if window_size == float("inf") else window_size
 
 
+def max_profit(prices):
+    """_summary_
+
+    Args:
+        prices (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    # Replace this placeholder return statement with your code
+    left, right = 0, 1
+    profit = 0
+    for right, val in enumerate(prices):
+        # left = 0
+        if prices[left] < val:
+        # while left < right:
+            profit = max(profit, prices[right] - prices[left])
+        else:
+            left = right
+    return profit
+
+
 if __name__ == "__main__":
     """
     # ************************************************************
