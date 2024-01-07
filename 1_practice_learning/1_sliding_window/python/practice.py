@@ -355,7 +355,16 @@ def min_sub_array_len(target, nums):
         _type_: _description_
     """
     # Replace this placeholder return statement with your code
-    return -1
+    window_size, sum = float("inf"), 0
+    left, right = 0, 0
+    for right, num in enumerate(nums):
+        sum += num
+        while sum >= target:
+            window_size = min(window_size, right - left + 1)
+            sum -= nums[left]
+            left += 1
+
+    return 0 if window_size == float("inf") else window_size
 
 
 if __name__ == "__main__":
