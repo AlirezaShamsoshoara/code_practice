@@ -272,8 +272,7 @@ def min_window_no_order(s, t):
             left += 1
 
     left, right = res
-    return s[left: right + 1] if res_len != float("inf") else ""
-
+    return s[left : right + 1] if res_len != float("inf") else ""
 
 
 def find_longest_substring(input_str):
@@ -309,11 +308,40 @@ def find_longest_substring(input_str):
             last_seen[char] = right
             if right - left + 1 > found_len:
                 found_len = right - left + 1
-                found = input_str[left: right+1]
+                found = input_str[left : right + 1]
 
     if found_len < right - left + 1:
         found_len = right - left + 1
     return found
+
+
+def longest_repeating_character_replacement(s, k):
+    """_summary_
+
+    Args:
+        s (_type_): _description_
+        k (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    window_freq_hash = {}
+    start, end = 0, 0
+    length_of_max_substring, most_freq_char = 0, 0
+    # Replace this placeholder return statement with your code
+    for end, char in enumerate(s):
+        if char not in window_freq_hash:
+            window_freq_hash[char] = 1
+        else:
+            window_freq_hash[char] += 1
+
+        most_freq_char = max(most_freq_char, window_freq_hash[char])
+        if end - start + 1 - most_freq_char > k:
+            window_freq_hash[s[start]] -= 1
+            start += 1
+
+        length_of_max_substring = max(length_of_max_substring, end - start + 1)
+    return length_of_max_substring
 
 
 if __name__ == "__main__":
@@ -397,7 +425,7 @@ if __name__ == "__main__":
         print(i + 1, ".\ts: ", s[i], "\n\tt: ", t[i], "\n\tThe minimum substring containing ", \
               t[i], " is: ", min_window_no_order(s[i], t[i]), sep="")
         print("-" * 100)
-    """
+    
     # ************************************************************
     # *********************** longest substring w/o repeating ***********************
     string = [
@@ -416,3 +444,16 @@ if __name__ == "__main__":
                 (find_longest_substring(str_elem)))
         print("-" * 100)
     # ************************************************************
+    """
+    # *********************** longest substring w/o repeating ***********************
+    input_strings = ["aabccbb", "abbcb", "abccde", "abbcab", "bbbbbbbbb"]
+    values_of_k = [2, 1, 1, 2, 4]
+
+    for i, string_elem in enumerate(input_strings):
+        print(i + 1, ".\tInput String: ", string_elem, sep="")
+        print("\tk: ", values_of_k[i], sep="")
+        print(
+            "\tLength of longest substring with repeating characters: ",
+            longest_repeating_character_replacement(string_elem, values_of_k[i]),
+        )
+        print("-" * 100)
